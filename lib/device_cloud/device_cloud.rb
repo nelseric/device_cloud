@@ -14,3 +14,5 @@ module DeviceCloud
     "https://#{Config.username}:#{Config.password}@login.etherios.com"
   end
 end
+
+DeviceCloud::Config.load_from_file(File.expand_path('../../config', __FILE__))
