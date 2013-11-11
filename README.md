@@ -1,4 +1,4 @@
-# Device::Cloud
+# DeviceCloud
 
 TODO: Write a gem description
 
@@ -6,7 +6,7 @@ TODO: Write a gem description
 
 Add this line to your application's Gemfile:
 
-    gem 'device-cloud'
+    gem 'device_cloud'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install device-cloud
+    $ gem install device_cloud
 
 ## Usage
 
