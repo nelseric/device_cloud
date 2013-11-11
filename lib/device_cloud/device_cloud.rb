@@ -16,4 +16,3 @@ module DeviceCloud
   end
 end
 
-DeviceCloud::Config.load_from_file(File.read(File.expand_path('../../../config/devicecloud.yml', __FILE__)))
