@@ -1,14 +1,9 @@
 require "device_cloud/version"
+require "device_cloud/config"
 require "device_cloud/device"
 
-
 require "rest-client"
-include "singleton"
 module DeviceCloud
-  def initialize username, password
-    @username = username
-    @password = password
-  end
 
   def devices
     Response.parse(RestClient.get base_url + "ws/DeviceCore")
@@ -16,6 +11,6 @@ module DeviceCloud
 
   private
   def base_url
-    "https://#{@username}:#{@password}@login.etherios.com"
+    "https://#{Config.username}:#{Config.password}@login.etherios.com"
   end
 end
