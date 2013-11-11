@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "nokogiri"
+  spec.add_dependency "nori"
   spec.add_dependency "hutch", "~>0.6"
   spec.add_dependency "rest-client"
 
