@@ -14,7 +14,7 @@ module DeviceCloud
     def initialize(element)
       #element = element
       @id = element.xpath("id").text
-      @value = element.xpath("data").text.to_f
+      @value = element.xpath("data").text
       @timestamp = Time.at(element.xpath("timestamp").text.to_f / 1000)
       @stream_id = element.xpath("stream_id").text
     end

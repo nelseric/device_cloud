@@ -21,5 +21,22 @@ module DeviceCloud
     def stream_id
       @element.xpath("streamId").text
     end
+
+    def get_data(params)
+      DeviceCloud.data_points(stream_id, params)
+    end
+
+    def device_id
+      stream_id_parse[1]
+    end
+
+    def mac
+      stream_id_parse[2].to_i(16)#scan(/.{2}/).inject { |a, b| a + ":" + b }
+    end
+
+    private
+    def stream_id_parse
+      /dia\/channel\/((?:[0-9a-fA-F]{8}-?){4})\/([^\/]*)\//.match stream_id
+    end
   end
 end
