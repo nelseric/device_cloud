@@ -18,7 +18,7 @@ module DeviceCloud
 
 
     def delete(client)
-      client.delete PATH   + "/" + stream_id
+      client.delete RESOURCE_PATH + "/" + stream_id
     end
 
     def current
