@@ -8,6 +8,7 @@ module DeviceCloud
     attr_accessor :username, :password, :host, :protocol
 
     def initialize(args)
+      args = Hash[*args.map { |k, v| [k.to_sym, v] }.flatten]
       @username = args[:username] || DEFAULT_USERNAME
       @password = args[:password] || DEFAULT_PASSWORD
       @host = args[:host] || DEFAULT_HOST

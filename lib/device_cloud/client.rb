@@ -15,7 +15,7 @@ module DeviceCloud
     end
 
     def data_streams(stream, params = {})
-      DataStream.parse(get "#{DataStream::PATH}/#{stream}?#{ to_params params }")
+      DataStream.parse(get "#{DataStream::RESOURCE_PATH}/#{stream}?#{ to_params params }")
     end
 
     def data_points(stream_id, params = {})
