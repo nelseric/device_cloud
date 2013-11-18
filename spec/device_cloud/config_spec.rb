@@ -5,8 +5,8 @@ describe DeviceCloud::Config do
   subject do
     DeviceCloud::Config.new(:username => username, :password => password, :host => host, :protocol => protocol)
   end
-  let(:username) { "test" }
-  let(:password) { "test" }
+  let(:username) { "testl-user" }
+  let(:password) { "test-pass" }
   let(:host) { "login.etherios.com" }
   let(:protocol) { "https" }
 

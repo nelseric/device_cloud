@@ -1,6 +1,8 @@
 require "device_cloud/result"
 module DeviceCloud
   class DataStream
+    RESOURCE_PATH = '/ws/DataStream'
+
     def self.parse(xml)
       result = Result.new(xml)
       result.document.xpath("//result/DataStream").map do |stream|
@@ -12,6 +14,11 @@ module DeviceCloud
 
     def initialize(element)
       @element = element
+    end
+
+
+    def delete(client)
+      client.delete PATH   + "/" + stream_id
     end
 
     def current

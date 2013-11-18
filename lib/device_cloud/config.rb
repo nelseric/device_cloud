@@ -9,7 +9,7 @@ module DeviceCloud
 
     def initialize(args)
       @username = args[:username] || DEFAULT_USERNAME
-      @password = args[:username] || DEFAULT_PASSWORD
+      @password = args[:password] || DEFAULT_PASSWORD
       @host = args[:host] || DEFAULT_HOST
       @protocol = args[:protocol] || DEFAULT_PROTOCOL
     end

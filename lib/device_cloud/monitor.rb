@@ -2,14 +2,27 @@ require "nokogiri"
 module DeviceCloud
   class Monitor
 
-    attr_accessor :topic, :id
+    RESOURCE_PATH = "/ws/Monitor"
 
-    def initialize(topic)
+    attr_accessor :topic, :id, :element
+
+    def self.all(client)
+      xml_result = Nokogiri::XML.parse client.get RESOURCE_PATH
+      xml_result.xpath("//result/Monitor").map { |monitor| parse monitor }
+    end
+
+    def self.parse(xml)
+      topic = xml.xpath("monTopic").text
+      DeviceCloud::Monitor.new(topic, xml)
+    end
+
+    def initialize(topic, element = nil)
       @topic = topic
+      @element = element
     end
 
     def resource_path
-      "/ws/Monitor"
+      RESOURCE_PATH
     end
 
 
@@ -20,6 +33,7 @@ module DeviceCloud
     end
 
     def delete(client)
+      raise NotImplementedError, "Incomplete"
       puts client.delete resource_path
     end
 

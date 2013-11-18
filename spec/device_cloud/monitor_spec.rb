@@ -32,4 +32,14 @@ describe DeviceCloud::Monitor do
       a_request(:post, client.base_url + "/ws/Monitor").should have_been_made
     end
   end
+
+  describe "all" do
+    before do
+      api_stub
+    end
+    it "should get on the root of monitor" do
+      DeviceCloud::Monitor.all(client)
+      a_request(:get, client.base_url + "/ws/Monitor").should have_been_made
+    end
+  end
 end

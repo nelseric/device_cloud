@@ -15,7 +15,7 @@ module DeviceCloud
     end
 
     def data_streams(stream, params = {})
-      DataStream.parse(get "/ws/DataStream/#{stream}?#{ to_params params }")
+      DataStream.parse(get "#{DataStream::PATH}/#{stream}?#{ to_params params }")
     end
 
     def data_points(stream_id, params = {})
@@ -23,8 +23,8 @@ module DeviceCloud
     end
 
 
-    def get(path)
-      RestClient.get base_url + path
+    def get(path, *args)
+      RestClient.get base_url + path, args
     end
 
     def put(path, *args)
@@ -35,13 +35,16 @@ module DeviceCloud
       RestClient.post base_url + path, args
     end
 
-    def base_url
+    def delete(path, *args)
+      RestClient.delete base_url + path, args
+    end
 
+    def base_url
       "#{config.protocol}://#{config.username}:#{config.password}@#{config.host}"
     end
 
     private
-    def self.to_params(hash)
+    def to_params(hash)
       hash.each_pair.map do |key, value|
         key + "=" + value
       end.inject { |a, b| a + "&" + b }
