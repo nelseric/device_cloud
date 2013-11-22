@@ -1,6 +1,6 @@
 # DeviceCloud
 
-TODO: Write a gem description
+Provides API Access for the devicecloud platform to ruby
 
 ## Installation
 
