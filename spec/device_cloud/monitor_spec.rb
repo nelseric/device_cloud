@@ -1,9 +1,7 @@
-require 'rspec'
-
 require "spec_helper"
 
 describe DeviceCloud::Monitor do
-  subject do
+  subject(:monitor) do
     DeviceCloud::Monitor.new(topic)
   end
 
@@ -14,10 +12,10 @@ describe DeviceCloud::Monitor do
   let(:topic) { "DiaChannelDataFull" }
 
   describe "#build" do
-    let(:document) { subject.build.doc }
+    let(:document) { monitor.build.doc }
     it 'it will have the correct topic' do
       document.xpath("//Monitor/monTopic").text.should == topic
-      subject.topic = "DeviceCore,DataStream"
+      monitor.topic = "DeviceCore,DataStream"
       document.xpath("//Monitor/monTopic").text.should == topic
     end
   end
@@ -28,7 +26,7 @@ describe DeviceCloud::Monitor do
       api_stub
     end
     it "should POSTed to $base/ws/Monitor" do
-      subject.save(client)
+      monitor.save(client)
       a_request(:post, client.base_url + "/ws/Monitor").should have_been_made
     end
   end

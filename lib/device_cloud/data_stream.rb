@@ -16,21 +16,24 @@ module DeviceCloud
       @element = element
     end
 
-
     def delete(client)
       client.delete RESOURCE_PATH + "/" + stream_id
     end
 
-    def current
-      DataPoint.new(@element.xpath("currentValue"))
+    def value
+      current.value
+    end
+
+    def timestamp
+      current.timestamp
+    end
+
+    def current_id
+      current.id
     end
 
     def stream_id
-      @element.xpath("streamId").text
-    end
-
-    def get_data(params)
-      DeviceCloud.data_points(stream_id, params)
+      element.xpath("streamId").text
     end
 
     def device_id
@@ -38,16 +41,25 @@ module DeviceCloud
     end
 
     def mac
-      stream_id_parse[2].to_i(16)#scan(/.{2}/).inject { |a, b| a + ":" + b }
+      stream_id_parse[2].to_i(16)
     end
 
     def name
       stream_id_parse[3]
     end
 
+    def device_path
+      "dia/channel/#{device_id}/#{mac.to_s(16).rjust(16,"0")}/"
+    end
+
     private
+
     def stream_id_parse
       /dia\/channel\/((?:[0-9a-fA-F]{8}-?){4})\/([^\/]*)\/([a-z_]*)/.match stream_id
+    end
+
+    def current
+      DataPoint.new(element.xpath("currentValue"))
     end
   end
 end

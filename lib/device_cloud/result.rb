@@ -1,5 +1,8 @@
 require "nokogiri"
 module DeviceCloud
+  class InvalidResultError < StandardError
+  end
+
   class Result
     include Enumerable
 
@@ -7,6 +10,7 @@ module DeviceCloud
 
     def initialize(xml)
       @document = Nokogiri::XML.parse(xml)
+      raise InvalidResultError if @document.xpath("//result").empty?
     end
 
     def total

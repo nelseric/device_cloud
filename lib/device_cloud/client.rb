@@ -14,14 +14,13 @@ module DeviceCloud
       DeviceCore.parse(get "/ws/DeviceCore/#{device}?#{ to_params params }")
     end
 
-    def data_streams(stream, params = {})
-      DataStream.parse(get "#{DataStream::RESOURCE_PATH}/#{stream}?#{ to_params params }")
+    def data_streams(stream_path, params = {})
+      DataStream.parse(get "#{DataStream::RESOURCE_PATH}/#{stream_path}?#{ to_params params }")
     end
 
     def data_points(stream_id, params = {})
       DataPoint.parse(get "/ws/DataPoint/#{stream_id}?#{ to_params params }")
     end
-
 
     def get(path, *args)
       RestClient.get base_url + path, args
