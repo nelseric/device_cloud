@@ -66,7 +66,7 @@ describe DeviceCloud::DataPoint do
 
   describe "#timestamp" do
     it "returns the timestamp of the data point" do
-      expect(Time.at(data_point.timestamp.to_i)).to eql Time.new(2013, 11, 20, 13, 8, 52)
+      expect(Time.at(data_point.timestamp.to_i)).to eql Time.parse("2013-11-20T13:8:52-05:00")
     end
   end
 

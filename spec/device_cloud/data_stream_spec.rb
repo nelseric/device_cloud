@@ -113,7 +113,7 @@ describe DeviceCloud::DataStream do
 
   describe "#timestamp" do
     it "returns the timestamp of the current datapoint for the stream" do
-      expect(Time.at(data_stream.timestamp.to_i)).to eql Time.new(2013, 11, 22, 15, 26, 06)
+      expect(Time.at(data_stream.timestamp.to_i)).to eql Time.parse("2013-11-22T15:26:06-05:00")
     end
   end
 
