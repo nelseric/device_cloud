@@ -1,6 +1,7 @@
 [![Code Climate](https://codeclimate.com/github/nelseric/device_cloud.png)](https://codeclimate.com/github/nelseric/device_cloud)
 [![Build Status](https://travis-ci.org/nelseric/device_cloud.png)](https://travis-ci.org/nelseric/device_cloud)
 [![Dependency Status](https://gemnasium.com/nelseric/device_cloud.png)](https://gemnasium.com/nelseric/device_cloud)
+[![Coverage Status](https://coveralls.io/repos/nelseric/device_cloud/badge.png)](https://coveralls.io/r/nelseric/device_cloud)
 # DeviceCloud
 
 Provides API Access for the devicecloud platform to ruby

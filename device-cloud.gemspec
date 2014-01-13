@@ -5,7 +5,7 @@ require 'device_cloud/version'
 
 Gem::Specification.new do |spec|
   spec.name = "device_cloud"
-  spec.version = DeviceCloud::VERSION
+  spec.version = DeviceCloud::VERSION.dup
   spec.authors = ["Eric Nelson"]
   spec.email = ["eric@clean-logix.com"]
   spec.description = %q{REST Wrapper for Etherios Devicecloud}
@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "guard-rspec"
   spec.add_development_dependency "guard-bundler"
   spec.add_development_dependency "libnotify"
-  spec.add_development_dependency "simplecov"
+  spec.add_development_dependency "coveralls"
 
 
 
