@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'device_cloud/version'
 
 Gem::Specification.new do |spec|
-  spec.name = "device_cloud"
+  spec.name = "device-cloud"
   spec.version = DeviceCloud::VERSION.dup
   spec.authors = ["Eric Nelson"]
   spec.email = ["eric@clean-logix.com"]
