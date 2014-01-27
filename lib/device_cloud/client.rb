@@ -23,19 +23,19 @@ module DeviceCloud
     end
 
     def get(path, *args)
-      RestClient.get base_url + path, args
+      RestClient.get base_url + path, *args
     end
 
     def put(path, *args)
-      RestClient.put base_url + path, args
+      RestClient.put base_url + path, *args
     end
 
     def post(path, *args)
-      RestClient.post base_url + path, args
+      RestClient.post base_url + path, *args
     end
 
     def delete(path, *args)
-      RestClient.delete base_url + path, args
+      RestClient.delete base_url + path, *args
     end
 
     def base_url
