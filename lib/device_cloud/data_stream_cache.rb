@@ -9,13 +9,13 @@ module DeviceCloud
     def initialize(client, ttl = 60)
       @client = client
       @ttl = ttl
-      @last_updated = Time.at(0)
+      @last_updated = nil
     end
 
     def init_with(coder)
       @client = coder["client"]
       @ttl = coder["ttl"] || 60
-      @last_updated = Time.at(0)
+      @last_updated = nil
     end
 
     # path is a regex describing the stream id to match
@@ -26,11 +26,11 @@ module DeviceCloud
     end
 
     def invalidate
-      @last_updated = Time.at(0)
+      @last_updated = nil
     end
 
     def valid?
-      (Time.now - @ttl) < @last_updated
+      !@last_updated.nil? and (Time.now - @ttl) < @last_updated
     end
 
     def cache

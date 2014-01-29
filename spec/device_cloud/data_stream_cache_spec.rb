@@ -204,6 +204,24 @@ describe DeviceCloud::DataStreamCache do
     end
   end
 
+  describe "#invalidate" do
+    context "the cache is valid" do
+      before :each do
+        Timecop.freeze
+
+        data_stream_cache.cache
+      end
+      after :each do
+        Timecop.return
+      end
+
+      it "sets last_updated to nil" do
+        expect { data_stream_cache.invalidate }.to change { data_stream_cache.last_updated }.from(Time.now).to nil
+      end
+
+    end
+  end
+
   describe "#cache" do
 
     let(:stream) { double("DeviceCloud::DataStream") }
@@ -240,5 +258,19 @@ describe DeviceCloud::DataStreamCache do
     after :each do
       Timecop.return
     end
+  end
+
+
+  let(:serialized) { <<-YAML
+--- !ruby/object:DeviceCloud::DataStreamCache
+ttl: 33
+  YAML
+  }
+  it "will load from YAML" do
+    loaded = YAML.load(serialized)
+
+    expect(loaded).to be_a DeviceCloud::DataStreamCache
+    expect(loaded.ttl).to eql 33
+    expect(loaded.client).to eql nil
   end
 end
