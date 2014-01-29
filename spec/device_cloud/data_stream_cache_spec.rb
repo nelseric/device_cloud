@@ -166,6 +166,7 @@ describe DeviceCloud::DataStreamCache do
     before :each do
       Timecop.freeze
     end
+
     context("The cache has not been updated") do
       it "will return false" do
         expect(data_stream_cache.valid?).to eql false
@@ -177,6 +178,7 @@ describe DeviceCloud::DataStreamCache do
         data_stream_cache.cache
         Timecop.travel Time.now + 10
       end
+
       it "will return true" do
         expect(data_stream_cache.valid?).to eql true
       end
@@ -197,6 +199,7 @@ describe DeviceCloud::DataStreamCache do
         end
       end
     end
+
     context "the requested stream does not exist" do
       it "returns an empty array" do
         expect(data_stream_cache.data_streams("foo")).to be_empty
@@ -208,9 +211,9 @@ describe DeviceCloud::DataStreamCache do
     context "the cache is valid" do
       before :each do
         Timecop.freeze
-
         data_stream_cache.cache
       end
+
       after :each do
         Timecop.return
       end
@@ -218,18 +221,16 @@ describe DeviceCloud::DataStreamCache do
       it "sets last_updated to nil" do
         expect { data_stream_cache.invalidate }.to change { data_stream_cache.last_updated }.from(Time.now).to nil
       end
-
     end
   end
 
   describe "#cache" do
-
     let(:stream) { double("DeviceCloud::DataStream") }
-
     before :each do
       DeviceCloud::DataStream.stub(:parse => [stream])
       Timecop.freeze
     end
+
     context "The cache is invalid" do
       it "will update the cache age" do
         expect { data_stream_cache.cache }.to change { data_stream_cache.last_updated }.to Time.now
@@ -238,6 +239,7 @@ describe DeviceCloud::DataStreamCache do
       it "will set the raw cache to the request xml" do
         expect { data_stream_cache.cache }.to change { data_stream_cache.raw_cache }.to xml
       end
+
       it "will return the cache parsed as an array DataStreams" do
         expect(data_stream_cache.cache).to eql [stream]
         expect(DeviceCloud::DataStream).to have_received(:parse).with(xml)
@@ -247,7 +249,6 @@ describe DeviceCloud::DataStreamCache do
     context "The cache is valid" do
       before :each do
         data_stream_cache.stub(:valid? => true, :parsed_cache => [stream])
-
       end
 
       it "will only return the current cache value" do
@@ -255,17 +256,14 @@ describe DeviceCloud::DataStreamCache do
         expect(DeviceCloud::DataStream).not_to have_received(:parse)
       end
     end
+
     after :each do
       Timecop.return
     end
   end
 
+  let(:serialized) { "--- !ruby/object:DeviceCloud::DataStreamCache \nttl: 33" }
 
-  let(:serialized) { <<-YAML
---- !ruby/object:DeviceCloud::DataStreamCache
-ttl: 33
-  YAML
-  }
   it "will load from YAML" do
     loaded = YAML.load(serialized)
 
