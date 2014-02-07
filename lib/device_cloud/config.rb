@@ -8,7 +8,7 @@ module DeviceCloud
     attr_accessor :username, :password, :host, :protocol
 
     def initialize(args)
-      args = Hash[*args.map { |k, v| [k.to_s, v] }.flatten]
+      args = Hash[*args.map { |k, v| [k.to_s, v] }.flatten] unless args.nil?
       init_with args
     end
 

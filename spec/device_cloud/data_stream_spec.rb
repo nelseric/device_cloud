@@ -135,6 +135,11 @@ describe DeviceCloud::DataStream do
     end
   end
 
+  describe "#path" do
+    it "returns the path of the datastream, which is the part of the streamId between the stream name and device_id" do
+      expect(data_stream.path).to eql "0013a20040a52e1d"
+    end
+  end
   describe "#mac" do
     it "returns the sensor mac from the device id and converts it to an integer" do
       expect(data_stream.mac).to eql "0013a20040a52e1d".to_i(16)

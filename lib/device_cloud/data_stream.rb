@@ -41,7 +41,11 @@ module DeviceCloud
     end
 
     def mac
-      stream_id_parse[2].to_i(16)
+      path.to_i(16)
+    end
+
+    def path
+      stream_id_parse[2]
     end
 
     def name

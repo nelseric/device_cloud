@@ -2,9 +2,10 @@ require 'spec_helper'
 
 require 'timecop'
 
-describe DeviceCloud::DataStreamCache do
-  subject(:data_stream_cache) { DeviceCloud::DataStreamCache.new client }
+describe DeviceCloud::DataStreamClient do
+  subject(:data_stream_client) { DeviceCloud::DataStreamClient.new config, client }
   let(:client) { double("DeviceCloud::Client", :get => xml) }
+  let(:config) { {"ttl" => 55} }
 
   let(:xml) do
     <<-XML
@@ -169,18 +170,18 @@ describe DeviceCloud::DataStreamCache do
 
     context("The cache has not been updated") do
       it "will return false" do
-        expect(data_stream_cache.valid?).to eql false
+        expect(data_stream_client.valid?).to eql false
       end
     end
 
     context("A request has recently been made") do
       before(:each) do
-        data_stream_cache.cache
+        data_stream_client.cache
         Timecop.travel Time.now + 10
       end
 
       it "will return true" do
-        expect(data_stream_cache.valid?).to eql true
+        expect(data_stream_client.valid?).to eql true
       end
     end
 
@@ -189,10 +190,23 @@ describe DeviceCloud::DataStreamCache do
     end
   end
 
-  describe "#data_streams" do
+  describe "#devices" do
+    it "will return a data for every (device_id)/(path)/..." do
+
+      device_list = [{device_id: "00000000-00000000-00409DFF-FF725771", path: "0013a20040a52e1d"},
+                     {device_id: "00000000-00000000-00409DFF-FF725771", path: "0013a2004063d301"},
+                     {device_id: "00000000-00000000-00409DFF-FF725771", path: "0013a200408cb965"},
+                     {device_id: "00000000-00000000-00409DFF-FF725771", path: "0013a20040a52b7a"}]
+
+
+      expect(data_stream_client.devices).to eql device_list
+    end
+  end
+
+  describe "#match" do
     context "when the streams requested exit" do
       it "returns a datastream object for each matched stream" do
-        streams = data_stream_cache.data_streams(".*/distance")
+        streams = data_stream_client.match(".*/distance")
         expect(streams.count).to eql 4
         streams.each do |stream|
           expect(stream.name).to eql "distance"
@@ -202,16 +216,17 @@ describe DeviceCloud::DataStreamCache do
 
     context "the requested stream does not exist" do
       it "returns an empty array" do
-        expect(data_stream_cache.data_streams("foo")).to be_empty
+        expect(data_stream_client.match("foo")).to be_empty
       end
     end
   end
+
 
   describe "#invalidate" do
     context "the cache is valid" do
       before :each do
         Timecop.freeze
-        data_stream_cache.cache
+        data_stream_client.cache
       end
 
       after :each do
@@ -219,7 +234,7 @@ describe DeviceCloud::DataStreamCache do
       end
 
       it "sets last_updated to nil" do
-        expect { data_stream_cache.invalidate }.to change { data_stream_cache.last_updated }.from(Time.now).to nil
+        expect { data_stream_client.invalidate }.to change { data_stream_client.last_updated }.from(Time.now).to nil
       end
     end
   end
@@ -233,26 +248,26 @@ describe DeviceCloud::DataStreamCache do
 
     context "The cache is invalid" do
       it "will update the cache age" do
-        expect { data_stream_cache.cache }.to change { data_stream_cache.last_updated }.to Time.now
+        expect { data_stream_client.cache }.to change { data_stream_client.last_updated }.to Time.now
       end
 
       it "will set the raw cache to the request xml" do
-        expect { data_stream_cache.cache }.to change { data_stream_cache.raw_cache }.to xml
+        expect { data_stream_client.cache }.to change { data_stream_client.raw_cache }.to xml
       end
 
       it "will return the cache parsed as an array DataStreams" do
-        expect(data_stream_cache.cache).to eql [stream]
+        expect(data_stream_client.cache).to eql [stream]
         expect(DeviceCloud::DataStream).to have_received(:parse).with(xml)
       end
     end
 
     context "The cache is valid" do
       before :each do
-        data_stream_cache.stub(:valid? => true, :parsed_cache => [stream])
+        data_stream_client.stub(:valid? => true, :parsed_cache => [stream])
       end
 
       it "will only return the current cache value" do
-        expect(data_stream_cache.cache).to eql [stream]
+        expect(data_stream_client.cache).to eql [stream]
         expect(DeviceCloud::DataStream).not_to have_received(:parse)
       end
     end
@@ -264,11 +279,4 @@ describe DeviceCloud::DataStreamCache do
 
   let(:serialized) { "--- !ruby/object:DeviceCloud::DataStreamCache \nttl: 33" }
 
-  it "will load from YAML" do
-    loaded = YAML.load(serialized)
-
-    expect(loaded).to be_a DeviceCloud::DataStreamCache
-    expect(loaded.ttl).to eql 33
-    expect(loaded.client).to eql nil
-  end
 end

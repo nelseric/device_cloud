@@ -1,28 +1,31 @@
 require 'device_cloud'
 
 module DeviceCloud
-  class DataStreamCache
+  class DataStreamClient
     attr_accessor :client, :ttl
 
     attr_reader :last_updated, :raw_cache, :parsed_cache
 
-    def initialize(client, ttl = 60)
-      @client = client
-      @ttl = ttl
+    def initialize(config, client = nil)
+      @client = client || Client.new(config)
+      @ttl = config["ttl"] || 60
       @last_updated = nil
     end
 
-    def init_with(coder)
-      @client = coder["client"]
-      @ttl = coder["ttl"] || 60
-      @last_updated = nil
-    end
-
-    # path is a regex describing the stream id to match
-    def data_streams(path)
+    # match the stream_id against regex
+    def match(regex)
       cache.select do |stream|
-        stream.stream_id.match path
+        stream.stream_id.match regex
       end
+    end
+
+    def devices
+      cache.map do |stream|
+        {
+            device_id: stream.device_id,
+            path: stream.path
+        }
+      end.uniq
     end
 
     def invalidate
