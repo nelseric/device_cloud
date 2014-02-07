@@ -42,6 +42,7 @@ describe DeviceCloud::DeviceCore do
             <dpZigbeeCapabilities>383</dpZigbeeCapabilities>
             <dpCapabilities>68154</dpCapabilities>
             <grpPath>IVX</grpPath>
+            <dpUserMetaData>{}</dpUserMetaData>
             <dpLastDisconnectTime>2013-11-18T19:22:51.067Z</dpLastDisconnectTime>
          </DeviceCore>
          <DeviceCore>
@@ -140,4 +141,17 @@ describe DeviceCloud::DeviceCore do
     end
   end
 
+  describe "#metadata" do
+    it "returns the user defined metadata for the device" do
+      expect(device.metadata).to eql "{}"
+    end
+
+    context "Metadata is not present" do
+      subject(:device) { DeviceCloud::DeviceCore.parse(xml).last }
+
+      it "will return an empty string" do
+        expect(device.metadata).to eql ""
+      end
+    end
+  end
 end

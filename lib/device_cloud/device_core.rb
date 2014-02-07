@@ -44,6 +44,10 @@ module DeviceCloud
       attribute "dpLastKnownIp"
     end
 
+    def metadata
+      attribute "dpUserMetaData"
+    end
+
     private
     def attribute(xpath)
       element.xpath(xpath).text
