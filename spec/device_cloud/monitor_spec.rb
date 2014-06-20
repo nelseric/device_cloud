@@ -14,9 +14,9 @@ describe DeviceCloud::Monitor do
   describe "#build" do
     let(:document) { monitor.build.doc }
     it 'it will have the correct topic' do
-      document.xpath("//Monitor/monTopic").text.should == topic
+      expect(document.xpath("//Monitor/monTopic").text).to eql topic
       monitor.topic = "DeviceCore,DataStream"
-      document.xpath("//Monitor/monTopic").text.should == topic
+      expect(document.xpath("//Monitor/monTopic").text).to eql topic
     end
   end
 
@@ -25,9 +25,9 @@ describe DeviceCloud::Monitor do
     before do
       api_stub
     end
-    it "should POSTed to $base/ws/Monitor" do
+    it "will POST to $base/ws/Monitor" do
       monitor.save(client)
-      a_request(:post, client.base_url + "/ws/Monitor").should have_been_made
+      expect(a_request(:post, client.base_url + "/ws/Monitor")).to have_been_made
     end
   end
 
@@ -35,9 +35,9 @@ describe DeviceCloud::Monitor do
     before do
       api_stub
     end
-    it "should get on the root of monitor" do
+    it "gets on the root of monitor" do
       DeviceCloud::Monitor.all(client)
-      a_request(:get, client.base_url + "/ws/Monitor").should have_been_made
+      expect(a_request(:get, client.base_url + "/ws/Monitor")).to have_been_made
     end
   end
 end

@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email = ["eric@clean-logix.com"]
   spec.description = %q{REST Wrapper for Etherios Devicecloud}
   spec.summary = %q{REST Wrapper for Etherios Devicecloud}
-  spec.homepage = ""
+  spec.homepage = "https://github.com/nelseric/device_cloud"
   spec.license = "MIT"
 
   spec.files = `git ls-files`.split($/)
@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec"
+  spec.add_development_dependency "rspec", "~> 3.0.0"
   spec.add_development_dependency "webmock"
   spec.add_development_dependency "pry"
   spec.add_development_dependency "debugger"

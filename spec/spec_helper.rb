@@ -10,4 +10,5 @@ require 'webmock/rspec'
 
 RSpec.configure do |config|
   config.include WebMock::API
+  config.raise_errors_for_deprecations!
 end

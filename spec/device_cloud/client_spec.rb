@@ -11,18 +11,18 @@ describe DeviceCloud::Client do
 
 
   it 'will generate a base_url using the configuration' do
-    client.base_url.should == "#{protocol}://#{username}:#{password}@#{host}"
+    expect(client.base_url).to eql "#{protocol}://#{username}:#{password}@#{host}"
     client.config.protocol = "http"
-    client.base_url.should == "http://#{username}:#{password}@#{host}"
+    expect(client.base_url).to eql "http://#{username}:#{password}@#{host}"
     client.config.host = "google.com"
-    client.base_url.should == "http://#{username}:#{password}@google.com"
+    expect(client.base_url).to eql "http://#{username}:#{password}@google.com"
   end
 
   describe "#devices" do
     let(:result) { "Device Core XML" }
     before :each do
-      client.stub(:get => result)
-      DeviceCloud::DeviceCore.stub(:parse)
+      allow(client).to receive(:get).and_return(result)
+      allow(DeviceCloud::DeviceCore).to receive(:parse)
     end
 
     context "No parameters" do

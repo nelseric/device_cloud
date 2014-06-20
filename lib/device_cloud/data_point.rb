@@ -9,12 +9,13 @@ module DeviceCloud
       end
     end
 
-    attr_accessor :element, :id, :value, :timestamp, :stream_id
+    attr_accessor :element, :id, :value, :timestamp, :stream_id, :server_timestamp
 
     def initialize(element)
       @id = element.xpath("id").text
       @value = element.xpath("data").text
       @timestamp = Time.at(element.xpath("timestamp").text.to_f / 1000)
+      @server_timestamp = Time.at(element.xpath("serverTimestamp").text.to_f / 1000)
       @stream_id = element.xpath("streamId").text
     end
   end

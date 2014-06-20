@@ -242,7 +242,7 @@ describe DeviceCloud::DataStreamClient do
   describe "#cache" do
     let(:stream) { double("DeviceCloud::DataStream") }
     before :each do
-      DeviceCloud::DataStream.stub(:parse => [stream])
+      allow(DeviceCloud::DataStream).to receive(:parse).and_return [stream]
       Timecop.freeze
     end
 
@@ -263,7 +263,8 @@ describe DeviceCloud::DataStreamClient do
 
     context "The cache is valid" do
       before :each do
-        data_stream_client.stub(:valid? => true, :parsed_cache => [stream])
+        allow(data_stream_client).to receive(:valid?).and_return true
+        allow(data_stream_client).to receive(:parsed_cache).and_return [stream]
       end
 
       it "will only return the current cache value" do
