@@ -26,7 +26,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "webmock", "~> 1.18"
   spec.add_development_dependency "pry", "~> 0.10"
-  spec.add_development_dependency "debugger", "~> 1.6"
   spec.add_development_dependency "guard", "~> 2.6"
   spec.add_development_dependency "guard-rspec", "~> 4.2"
   spec.add_development_dependency "guard-bundler", "~> 2.0"
