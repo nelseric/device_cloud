@@ -9,13 +9,20 @@ describe DeviceCloud::Client do
   let(:host) { "login.etherios.com" }
   let(:protocol) { "https" }
 
-
   it 'will generate a base_url using the configuration' do
     expect(client.base_url).to eql "#{protocol}://#{username}:#{password}@#{host}"
     client.config.protocol = "http"
     expect(client.base_url).to eql "http://#{username}:#{password}@#{host}"
     client.config.host = "google.com"
     expect(client.base_url).to eql "http://#{username}:#{password}@google.com"
+  end
+
+  describe "#base_url" do
+    let(:password) { "|!|\#{&^%*(@)}" }
+
+    it "will url encode username and password" do
+      expect { URI.parse(client.base_url) }.not_to raise_error
+    end
   end
 
   describe "#devices" do

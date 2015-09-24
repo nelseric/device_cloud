@@ -39,7 +39,16 @@ module DeviceCloud
     end
 
     def base_url
-      "#{config.protocol}://#{config.username}:#{config.password}@#{config.host}"
+      "#{config.protocol}://#{escaped_username}:#{escaped_password}@#{config.host}"
+    end
+
+    def escaped_username
+      # URI.encode does not encode @ symbols
+      CGI.escape config.username
+    end
+
+    def escaped_password
+      CGI.escape config.password
     end
 
     private
